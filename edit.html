@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Edit Task</title>
+  <style>
+    body{font-family:Segoe UI,Arial;padding:20px;background:linear-gradient(135deg,#f3e5f5,#e1bee7);color:#333}
+    .card{max-width:700px;margin:30px auto;background:#fff;padding:18px;border-radius:12px}
+    label{display:block;margin-bottom:6px;font-weight:600;color:#6c4a7a}
+    input[type=text],textarea,select{width:100%;padding:10px;border-radius:8px;border:2px solid #f0e0f8;margin-bottom:12px}
+    .row{display:flex;gap:10px}
+    .row > *{flex:1}
+    .actions{display:flex;gap:8px;justify-content:flex-end}
+    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,#f8bbd0,#f48fb1);color:#fff}
+    .btn-secondary{background:#e0d5e8;color:#333}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Edit task — {{ day }}</h2>
+    <form action="/update/{{ day }}/{{ index }}" method="post">
+      <div>
+        <label for="text">Task</label>
+        <input id="text" name="text" type="text" value="{{ task.text }}" required>
+      </div>
+      <div class="row">
+        <div>
+          <label for="time">Time (HH:MM)</label>
+          <input id="time" name="time" type="text" value="{% if task.time is not none %}{{ '%02d:%02d' % (task.time//60, task.time%60) }}{% endif %}" placeholder="09:30">
+        </div>
+        <div>
+          <label for="done">Done</label>
+          <select id="done" name="done">
+            <option value="off" {% if not task.done %}selected{% endif %}>No</option>
+            <option value="on" {% if task.done %}selected{% endif %}>Yes</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="desc">Description</label>
+        <textarea id="desc" name="desc">{{ task.desc }}</textarea>
+      </div>
+      <div class="actions">
+        <a href="/" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

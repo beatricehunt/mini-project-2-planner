@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Weekly Planner</title>
+    <style>
+        /* Pastel styles (compact) */
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:Segoe UI,system-ui,Arial;min-height:100vh;background:linear-gradient(135deg,#fce4ec 0%,#e1bee7 50%,#c5cae9 100%);padding:20px;color:#333}
+        .container{max-width:1200px;margin:0 auto}
+        .header{text-align:center;color:#6c4a7a;margin-bottom:18px}
+        .input-section{background:rgba(255,255,255,0.9);border-radius:14px;padding:16px;margin-bottom:18px}
+        .input-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+        .input-group{flex:1;min-width:160px;display:flex;flex-direction:column}
+        label{font-weight:600;margin-bottom:6px;color:#8b7ba8}
+        input[type=text],select,textarea{padding:10px;border-radius:8px;border:2px solid #e1d5f0;background:#fafafe}
+        .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+        .btn-primary{background:linear-gradient(135deg,#f8bbd0,#f48fb1);color:#fff}
+        .days-grid{display:flex;flex-direction:column;gap:12px}
+        .day-column{background:rgba(255,255,255,0.95);border-radius:12px;overflow:hidden;margin-bottom:8px}
+        .day-header{padding:12px 16px;font-weight:700;color:#fff;font-size:1.1em}
+        .day-0 .day-header{background:linear-gradient(135deg,#ffb3ba,#ff8a94)}
+        .day-1 .day-header{background:linear-gradient(135deg,#ffccb3,#ffb084)}
+        .day-2 .day-header{background:linear-gradient(135deg,#c5f1a9,#a5d6a7)}
+        .day-3 .day-header{background:linear-gradient(135deg,#b4e7ff,#81d4fa)}
+        .day-4 .day-header{background:linear-gradient(135deg,#e1bee7,#ce93d8)}
+        .day-5 .day-header{background:linear-gradient(135deg,#f8bbd0,#f48fb1)}
+        .day-6 .day-header{background:linear-gradient(135deg,#fff9c4,#fff59d)}
+        .tasks-container{padding:12px;min-height:160px;max-height:520px;overflow:auto}
+    /* Use grid so actions sit in their own column and never overlap the text */
+    .task-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,#fce4ec,#f3e5f5);margin-bottom:10px}
+    .task-item.done{opacity:0.75}
+    .task-text{font-weight:500}
+    .task-time{font-size:0.85em;color:#9c6ba8}
+    .task-desc{font-size:0.85em;color:#7b6a8b;font-style:italic;margin-top:6px}
+    .task-actions{display:flex;gap:10px;flex-shrink:0;align-items:center;justify-self:end;padding-left:8px}
+    .task-actions .btn{min-width:48px;padding:6px 10px}
+    .task-text{overflow-wrap:break-word}
+        .tasks-container{padding:12px 16px;min-height:auto;max-height:none;overflow:visible}
+    form.inline{display:inline-block;margin:0}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Weekly Planner</h1>
+        </div>
+
+        <div class="input-section">
+            <form action="/add" method="post" class="input-row">
+                <div class="input-group" style="flex:2">
+                    <label for="text">Task</label>
+                    <input id="text" name="text" type="text" placeholder="Enter task" required>
+                </div>
+                <div class="input-group">
+                    <label for="day">Day</label>
+                    <select id="day" name="day">
+                        {% for d in days %}
+                        <option value="{{ d }}">{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="time">Time (HH:MM)</label>
+                    <input id="time" name="time" type="text" placeholder="09:30">
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:8px">
+                    <select name="ampm">
+                        <option value=""></option>
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Add Task</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="days-grid">
+            {% for day in days %}
+            <div class="day-column day-{{ loop.index0 }}">
+                <div class="day-header">{{ day }}</div>
+                <div class="tasks-container">
+                    {% set day_tasks = tasks.get(day, []) %}
+                    {% if not day_tasks %}
+                        <div style="text-align:center;color:#b0a0c0;padding:16px">No tasks</div>
+                    {% else %}
+                        {% for task in day_tasks %}
+                        <div class="task-item {% if task.done %}done{% endif %}">
+                            <form action="/toggle/{{ day }}/{{ loop.index0 }}" method="post" class="inline">
+                                <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center">
+                                    <input type="checkbox" {% if task.done %}checked{% endif %} style="cursor:pointer;width:18px;height:18px;pointer-events:none">
+                                </button>
+                            </form>
+                            <a href="/edit/{{ day }}/{{ loop.index0 }}" style="flex:1;min-width:0;text-decoration:none;color:inherit">
+                                <div class="task-text">{{ task.text }}</div>
+                                {% if task.time is not none %}
+                                <div class="task-time">⏰ {{ format_time_with_ampm(task.time) }}</div>
+                                {% endif %}
+                                {% if task.desc %}
+                                <div class="task-desc">📝 {{ task.desc }}</div>
+                                {% endif %}
+                            </a>
+                            <div class="task-actions">
+                                <form action="/delete/{{ day }}/{{ loop.index0 }}" method="post" class="inline">
+                                    <button class="btn" type="submit">✕</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{
+  "Monday": [
+    {
+      "text": "Computer Foundations",
+      "done": true,
+      "time": "09:35",
+      "desc": ""
+    },
+    {
+      "text": "homework",
+      "done": false,
+      "time": "16:30",
+      "desc": ""
+    },
+    {
+      "text": "gym",
+      "done": false,
+      "time": "18:30",
+      "desc": ""
+    }
+  ],
+  "Tuesday": [
+    {
+      "text": "Chinese I",
+      "done": false,
+      "time": "11:15",
+      "desc": ""
+    },
+    {
+      "text": "Call Mom",
+      "done": false,
+      "time": "13:00",
+      "desc": ""
+    }
+  ],
+  "Wednesday": [
+    {
+      "text": "Computer Foundations",
+      "done": false,
+      "time": "09:35",
+      "desc": ""
+    }
+  ],
+  "Thursday": [
+    {
+      "text": "Design Foundations",
+      "done": false,
+      "time": "09:30",
+      "desc": ""
+    },
+    {
+      "text": "Chinese I - \u4e2d\u6587\u5c0f\u8003",
+      "done": false,
+      "time": "11:15",
+      "desc": ""
+    },
+    {
+      "text": "Lunch w. Dad",
+      "done": false,
+      "time": "12:30",
+      "desc": ""
+    }
+  ],
+  "Friday": [
+    {
+      "text": "Comp Recitation",
+      "done": false,
+      "time": "11:40",
+      "desc": ""
+    },
+    {
+      "text": "Design Recitation",
+      "done": false,
+      "time": "12:35",
+      "desc": ""
+    },
+    {
+      "text": "Precalc Lecture",
+      "done": false,
+      "time": "15:35",
+      "desc": ""
+    },
+    {
+      "text": "Dinner",
+      "done": false,
+      "time": "18:30",
+      "desc": ""
+    }
+  ],
+  "Saturday": [
+    {
+      "text": "homework",
+      "done": false,
+      "time": "11:00",
+      "desc": ""
+    }
+  ],
+  "Sunday": [
+    {
+      "text": "Groceries",
+      "done": false,
+      "time": "11:00",
+      "desc": ""
+    }
+  ]
+}
