@@ -1,6 +1,6 @@
 # Weekly Planner
 
-A beautiful, modern web-based weekly planner app for managing tasks across all 7 days of the week. Built with Flask backend and a responsive HTML/CSS/JavaScript frontend.
+A beautiful, modern web-based weekly planner app for managing tasks across all 7 days of the week. Built with Flask backend and a responsive HTML/CSS frontend.
 
 ## Features
 
